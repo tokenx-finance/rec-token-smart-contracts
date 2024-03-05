@@ -3,7 +3,7 @@
 pragma solidity 0.8.24;
 
 import {ERC20Mintable} from "../extensions/ERC20Mintable.sol";
-import {ERC20TransferLimit} from "../extensions/ERC20TransferLimit.sol";
+import {ERC20TransferLimitable} from "../extensions/ERC20TransferLimitable.sol";
 import {EmergencyWithdrawable} from "../extensions/EmergencyWithdrawable.sol";
 import {ERC20AllowListableProxy} from "../extensions/ERC20AllowListableProxy.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -23,11 +23,11 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
  * This contract uses {Pausable} to include pause capabilities.
  * This contract uses {ERC20Burnable} to include burn capabilities.
  * This contract uses {ERC20Mintable} to include mint control capabilities.
- * This contract uses {ERC20TransferLimit} to include transfer limit control capabilities.
+ * This contract uses {ERC20TransferLimitable} to include transfer limit control capabilities.
  * This contract uses {ERC20AllowListableProxy} to include transfer and receive control capabilities.
  * This contract uses {EmergencyWithdrawable} to include emergency withdraw capabilities.
  */
-contract InvestmentTokenM is Ownable, Pausable, ERC20Burnable, ERC20Mintable, ERC20TransferLimit, ERC20AllowListableProxy, EmergencyWithdrawable {
+contract InvestmentTokenM is Ownable, Pausable, ERC20Burnable, ERC20Mintable, ERC20TransferLimitable, ERC20AllowListableProxy, EmergencyWithdrawable {
     constructor(string memory name_, string memory symbol_, address allowlistRegistry_) ERC20(name_, symbol_) {
         _setAllowlistRegistry(allowlistRegistry_);
     }

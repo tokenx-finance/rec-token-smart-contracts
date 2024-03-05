@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// TokenX Contracts v1.0.0 (extensions/ERC20TransferLimit.sol)
+// TokenX Contracts v1.0.0 (extensions/ERC20TransferLimitable.sol)
 pragma solidity 0.8.24;
 
 /**
@@ -8,7 +8,7 @@ pragma solidity 0.8.24;
  *
  * This module is designed for use through inheritance.
  */
-abstract contract ERC20TransferLimit {
+abstract contract ERC20TransferLimitable {
     struct TransferLimit {
         bool limitable;
         uint256 amount;
