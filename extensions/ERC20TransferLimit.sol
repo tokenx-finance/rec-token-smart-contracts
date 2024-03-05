@@ -64,22 +64,33 @@ abstract contract ERC20TransferLimit {
         _;
     }
 
+    /**
+     * @dev Throws if called when transfer limitable are disabled.
+     */
     modifier whenTransferLimitable() {
         require(_transferLimitable, "ERC20TransferLimit: transfer limit disabled");
         _;
     }
 
+    /**
+     * @dev Throws if called when transfer limitable are enabled.
+     */
     modifier whenNotTransferLimitable() {
         require(!_transferLimitable, "ERC20TransferLimit: transfer limit enabled");
         _;
     }
 
-
+    /**
+     * @dev Throws if the specified account's transfer limits are disabled. 
+     */
     modifier whenAccountTransferLimit(address account) {
         require(_transferLimitList[account].limitable, "ERC20TransferLimit: account transfer limit disabled");
         _;
     }
 
+    /**
+     * @dev Throws if the specified account's transfer limits are enabled. 
+     */
     modifier whenAccountTransferNotLimit(address account) {
         require(!_transferLimitList[account].limitable, "ERC20TransferLimit: account transfer limit enabled");
         _;
