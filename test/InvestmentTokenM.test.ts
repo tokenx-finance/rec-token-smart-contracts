@@ -678,16 +678,20 @@ describe("InvestmentTokenM Contract", () => {
     });
   });
 
-  describe("EmergencyWithdrawable", async () => {
+  describe("EmergencyWithdrawable", () => {
     let randomToken: any;
-    const tokenAddr = await token.getAddress();
-    const registryAddr = await registry.getAddress();
+    let tokenAddr: string;
+    let registryAddr: string;
 
     beforeEach(async () => {
-      const RandomToken = await ethers.getContractFactory("InvestmentToken");
+      const RandomToken = await ethers.getContractFactory("InvestmentTokenM");
 
-      randomToken = await RandomToken.deploy("Random Token", "RAND", ONE_MILLION, registryAddr);
-      randomToken.transfer(tokenAddr, ONE_MILLION);
+      tokenAddr = await token.getAddress();
+      registryAddr = await registry.getAddress();
+
+      randomToken = await RandomToken.deploy("Random Token", "RAND", registryAddr);
+      await randomToken.mint(ONE_MILLION);
+      await randomToken.transfer(tokenAddr, ONE_MILLION);
     });
 
     it("Should withdraw ERC20 tokens", async () => {
