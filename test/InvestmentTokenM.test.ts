@@ -150,7 +150,7 @@ describe("InvestmentTokenM Contract", () => {
       await token.transfer(ADDR1.address, ONE_THOUSAND);
 
       await expect(token.connect(ADDR1).transfer(OWNER.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -159,7 +159,7 @@ describe("InvestmentTokenM Contract", () => {
       await registry.addAllowlist(ADDR1.address);
 
       await expect(token.connect(ADDR1).transfer(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -184,7 +184,7 @@ describe("InvestmentTokenM Contract", () => {
       await registry.removeAllowlist(ADDR1.address);
 
       await expect(token.connect(ADDR2).transferFrom(ADDR1.address, ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -198,7 +198,7 @@ describe("InvestmentTokenM Contract", () => {
       await registry.removeAllowlist(ADDR2.address);
 
       await expect(token.connect(ADDR2).transferFrom(ADDR1.address, ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
   });
@@ -219,7 +219,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR1.address);
       await expect(token.connect(ADDR1).approve(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -229,7 +229,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR2.address);
       await expect(token.connect(ADDR1).approve(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -251,7 +251,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR1.address);
       await expect(token.connect(ADDR1).increaseAllowance(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -261,7 +261,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR2.address);
       await expect(token.connect(ADDR1).increaseAllowance(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -283,7 +283,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR1.address);
       await expect(token.connect(ADDR1).decreaseAllowance(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -293,7 +293,7 @@ describe("InvestmentTokenM Contract", () => {
 
       await registry.removeAllowlist(ADDR2.address);
       await expect(token.connect(ADDR1).decreaseAllowance(ADDR2.address, ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
   });
@@ -322,7 +322,7 @@ describe("InvestmentTokenM Contract", () => {
       await token.transfer(ADDR1.address, ONE_THOUSAND);
 
       await expect(token.connect(ADDR1).burn(ONE_THOUSAND)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -365,7 +365,7 @@ describe("InvestmentTokenM Contract", () => {
       await registry.removeAllowlist(ADDR2.address);
 
       await expect(token.connect(ADDR2).burnFrom(ADDR1.address, ONE_MILLION)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
 
@@ -379,7 +379,7 @@ describe("InvestmentTokenM Contract", () => {
       await registry.removeAllowlist(ADDR1.address);
 
       await expect(token.connect(ADDR2).burnFrom(ADDR1.address, ONE_MILLION)).to.be.revertedWith(
-        "InvestmentToken: account are not allowlisted"
+        "InvestmentTokenM: account are not allowlisted"
       );
     });
   });
@@ -426,104 +426,104 @@ describe("InvestmentTokenM Contract", () => {
       });
     });
 
-    describe("setAccountTransferLimit", () => {
-      it("Should setAccountTransferLimit success", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+    describe("setTransferLimit", () => {
+      it("Should setTransferLimit success", async () => {
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
       });
 
-      it("Should setAccountTransferLimit failed when sender is not the owner", async () => {
-        await expect(token.connect(ADDR1).setAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+      it("Should setTransferLimit failed when sender is not the owner", async () => {
+        await expect(token.connect(ADDR1).setTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "Ownable: caller is not the owner"
         );
       });
 
-      it("Should setAccountTransferLimit failed when account transfer limit enabled", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+      it("Should setTransferLimit failed when account transfer limit enabled", async () => {
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
 
-        await expect(token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+        await expect(token.setTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "ERC20TransferLimit: account transfer limit enabled"
         );
       });
     });
 
-    describe("unsetAccountTransferLimit", () => {
-      it("Should unsetAccountTransferLimit success", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
-        await token.unsetAccountTransferLimit(ADDR1.address);
+    describe("unsetTransferLimit", () => {
+      it("Should unsetTransferLimit success", async () => {
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
+        await token.unsetTransferLimit(ADDR1.address);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([false, 0n]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([false, 0n]);
       });
 
-      it("Should unsetAccountTransferLimit failed when sender is not the owner", async () => {
-        await expect(token.connect(ADDR1).unsetAccountTransferLimit(ADDR1.address)).to.be.revertedWith(
+      it("Should unsetTransferLimit failed when sender is not the owner", async () => {
+        await expect(token.connect(ADDR1).unsetTransferLimit(ADDR1.address)).to.be.revertedWith(
           "Ownable: caller is not the owner"
         );
       });
 
-      it("Should unsetAccountTransferLimit failed when account transfer limit disabled", async () => {
-        await expect(token.unsetAccountTransferLimit(ADDR1.address)).to.be.revertedWith(
+      it("Should unsetTransferLimit failed when account transfer limit disabled", async () => {
+        await expect(token.unsetTransferLimit(ADDR1.address)).to.be.revertedWith(
           "ERC20TransferLimit: account transfer limit disabled"
         );
       });
     });
 
-    describe("increaseAccountTransferLimit", () => {
-      it("Should increaseAccountTransferLimit success when account's transfer limit are disable", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, 0n);
-        await token.increaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+    describe("increaseTransferLimit", () => {
+      it("Should increaseTransferLimit success when account's transfer limit are disable", async () => {
+        await token.setTransferLimit(ADDR1.address, 0n);
+        await token.increaseTransferLimit(ADDR1.address, ONE_THOUSAND);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
       });
 
-      it("Should increaseAccountTransferLimit success when account's transfer limit are enable", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, 0n);
-        await token.increaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+      it("Should increaseTransferLimit success when account's transfer limit are enable", async () => {
+        await token.setTransferLimit(ADDR1.address, 0n);
+        await token.increaseTransferLimit(ADDR1.address, ONE_THOUSAND);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, ONE_THOUSAND]);
       });
 
-      it("Should increaseAccountTransferLimit failed when sender is not the owner", async () => {
-        await expect(token.connect(ADDR1).increaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+      it("Should increaseTransferLimit failed when sender is not the owner", async () => {
+        await expect(token.connect(ADDR1).increaseTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "Ownable: caller is not the owner"
         );
       });
 
-      it("Should increaseAccountTransferLimit failed when account transfer limit disabled", async () => {
-        await expect(token.increaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+      it("Should increaseTransferLimit failed when account transfer limit disabled", async () => {
+        await expect(token.increaseTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "ERC20TransferLimit: account transfer limit disabled"
         );
       });
     });
 
-    describe("decreaseAccountTransferLimit", () => {
-      it("Should decreaseAccountTransferLimit success", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+    describe("decreaseTransferLimit", () => {
+      it("Should decreaseTransferLimit success", async () => {
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
 
         const ONE_HUNDRED = ethers.parseEther("100");
         const NINE_HUNDRED = ONE_THOUSAND - ONE_HUNDRED;
 
-        await token.decreaseAccountTransferLimit(ADDR1.address, ONE_HUNDRED);
+        await token.decreaseTransferLimit(ADDR1.address, ONE_HUNDRED);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, NINE_HUNDRED]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, NINE_HUNDRED]);
       });
 
-      it("Should decreaseAccountTransferLimit success when underflow should be zero value", async () => {
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
-        await token.decreaseAccountTransferLimit(ADDR1.address, ONE_MILLION);
+      it("Should decreaseTransferLimit success when underflow should be zero value", async () => {
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
+        await token.decreaseTransferLimit(ADDR1.address, ONE_MILLION);
 
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, 0n]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, 0n]);
       });
 
-      it("Should decreaseAccountTransferLimit failed when sender is not the owner", async () => {
-        await expect(token.connect(ADDR1).decreaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+      it("Should decreaseTransferLimit failed when sender is not the owner", async () => {
+        await expect(token.connect(ADDR1).decreaseTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "Ownable: caller is not the owner"
         );
       });
 
-      it("Should decreaseAccountTransferLimit failed when account transfer limit disabled", async () => {
-        await expect(token.decreaseAccountTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
+      it("Should decreaseTransferLimit failed when account transfer limit disabled", async () => {
+        await expect(token.decreaseTransferLimit(ADDR1.address, ONE_THOUSAND)).to.be.revertedWith(
           "ERC20TransferLimit: account transfer limit disabled"
         );
       });
@@ -534,11 +534,11 @@ describe("InvestmentTokenM Contract", () => {
         await registry.addAllowlist(ADDR1.address);
         await registry.addAllowlist(ADDR2.address);
         await token.transfer(ADDR1, ONE_THOUSAND);
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
         await token.connect(ADDR1).transfer(ADDR2.address, ONE_THOUSAND);
 
         expect(await token.balanceOf(ADDR2.address)).to.equal(ONE_THOUSAND);
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, 0n]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, 0n]);
       });
 
       it("Should transfer success with partial transfer limit", async () => {
@@ -548,18 +548,18 @@ describe("InvestmentTokenM Contract", () => {
         await registry.addAllowlist(ADDR1.address);
         await registry.addAllowlist(ADDR2.address);
         await token.transfer(ADDR1, ONE_THOUSAND);
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
         await token.connect(ADDR1).transfer(ADDR2.address, ONE_HUNDRED);
 
         expect(await token.balanceOf(ADDR2.address)).to.equal(ONE_HUNDRED);
-        expect(await token.accountTransferLimit(ADDR1.address)).to.deep.equal([true, NINE_HUNDRED]);
+        expect(await token.transferLimitOf(ADDR1.address)).to.deep.equal([true, NINE_HUNDRED]);
       });
 
       it("Should transfer failed with exceeds transfer limit", async () => {
         await registry.addAllowlist(ADDR1.address);
         await registry.addAllowlist(ADDR2.address);
         await token.transfer(ADDR1, ONE_THOUSAND);
-        await token.setAccountTransferLimit(ADDR1.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR1.address, ONE_THOUSAND);
 
         await expect(token.connect(ADDR1).transfer(ADDR2.address, ONE_MILLION)).to.be.revertedWith(
           "ERC20TransferLimit: transfer exceeds limit"
@@ -577,11 +577,11 @@ describe("InvestmentTokenM Contract", () => {
 
         expect(await token.allowance(ADDR2.address, ADDR1.address)).to.equal(ONE_THOUSAND);
 
-        await token.setAccountTransferLimit(ADDR2.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR2.address, ONE_THOUSAND);
         await token.connect(ADDR1).transferFrom(ADDR2.address, ADDR1.address, ONE_THOUSAND);
 
         expect(await token.balanceOf(ADDR1.address)).to.equal(ONE_THOUSAND);
-        expect(await token.accountTransferLimit(ADDR2.address)).to.deep.equal([true, 0n]);
+        expect(await token.transferLimitOf(ADDR2.address)).to.deep.equal([true, 0n]);
       });
 
       it("Should transferFrom success with partial transfer limit", async () => {
@@ -596,11 +596,11 @@ describe("InvestmentTokenM Contract", () => {
 
         expect(await token.allowance(ADDR2.address, ADDR1.address)).to.equal(ONE_HUNDRED);
 
-        await token.setAccountTransferLimit(ADDR2.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR2.address, ONE_THOUSAND);
         await token.connect(ADDR1).transferFrom(ADDR2.address, ADDR1.address, ONE_HUNDRED);
 
         expect(await token.balanceOf(ADDR1.address)).to.equal(ONE_HUNDRED);
-        expect(await token.accountTransferLimit(ADDR2.address)).to.deep.equal([true, NINE_HUNDRED]);
+        expect(await token.transferLimitOf(ADDR2.address)).to.deep.equal([true, NINE_HUNDRED]);
       });
 
       it("Should transferFrom failed with exceeds transfer limit", async () => {
@@ -614,7 +614,7 @@ describe("InvestmentTokenM Contract", () => {
 
         expect(await token.allowance(ADDR2.address, ADDR1.address)).to.equal(ONE_HUNDRED);
 
-        await token.setAccountTransferLimit(ADDR2.address, ONE_THOUSAND);
+        await token.setTransferLimit(ADDR2.address, ONE_THOUSAND);
         await expect(token.connect(ADDR1).transferFrom(ADDR2.address, ADDR1.address, ONE_MILLION)).to.be.revertedWith(
           "ERC20TransferLimit: transfer exceeds limit"
         );

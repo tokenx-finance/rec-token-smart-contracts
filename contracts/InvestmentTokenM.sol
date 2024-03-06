@@ -4,8 +4,8 @@ pragma solidity 0.8.24;
 
 import {ERC20Mintable} from "../extensions/ERC20Mintable.sol";
 import {ERC20TransferLimitable} from "../extensions/ERC20TransferLimitable.sol";
-import {EmergencyWithdrawable} from "../extensions/EmergencyWithdrawable.sol";
 import {ERC20AllowListableProxy} from "../extensions/ERC20AllowListableProxy.sol";
+import {EmergencyWithdrawable} from "../extensions/EmergencyWithdrawable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
@@ -39,7 +39,7 @@ contract InvestmentTokenM is Ownable, Pausable, ERC20Burnable, ERC20Mintable, ER
         address _msgSender = _msgSender();
         if (_msgSender != owner()) {
             bool _isAllowlist = isAllowlist(sender) && isAllowlist(receiver) && isAllowlist(_msgSender);
-            require(_isAllowlist, "InvestmentToken: account are not allowlisted");
+            require(_isAllowlist, "InvestmentTokenM: account are not allowlisted");
         }
         _;
     }
@@ -90,63 +90,63 @@ contract InvestmentTokenM is Ownable, Pausable, ERC20Burnable, ERC20Mintable, ER
     }
 
     /**
-     * @dev See {ERC20TransferLimit-_setAccountTransferLimit}.
+     * @dev See {ERC20TransferLimit-_setTransferLimit}.
      *
      * Sets an account's transfer limit.
      *
-     * Emits an {SetAccountTransferLimit} event indicating that account has set transfer limit.
+     * Emits an {SetTransferLimit} event indicating that account has set transfer limit.
      *
      * Requirements:
      * 
      * - the caller must be owner.
      */
-    function setAccountTransferLimit(address account, uint256 amount) external virtual onlyOwner {
-        _setAccountTransferLimit(account, amount);
+    function setTransferLimit(address account, uint256 amount) external virtual onlyOwner {
+        _setTransferLimit(account, amount);
     }
 
     /**
-     * @dev See {ERC20TransferLimit-_unsetAccountTransferLimit}.
+     * @dev See {ERC20TransferLimit-_unsetTransferLimit}.
      *
      * Unsets an account's transfer limit.
      *
-     * Emits an {UnsetAccountTransferLimit} event indicating that account has unset transfer limit.
+     * Emits an {UnsetTransferLimit} event indicating that account has unset transfer limit.
      *
      * Requirements:
      * 
      * - the caller must be owner.
      */
-    function unsetAccountTransferLimit(address account) external virtual onlyOwner {
-        _unsetAccountTransferLimit(account);
+    function unsetTransferLimit(address account) external virtual onlyOwner {
+        _unsetTransferLimit(account);
     }
 
     /**
-     * @dev See {ERC20TransferLimit-_increaseAccountTransferLimit}.
+     * @dev See {ERC20TransferLimit-_increaseTransferLimit}.
      *
      * Increases the transfer limit for a specific account.
      *
-     * Emits an {IncreaseAccountTransferLimit} event indicating that the account's transfer limit has been increased.
+     * Emits an {IncreaseTransferLimit} event indicating that the account's transfer limit has been increased.
      *
      * Requirements:
      * 
      * - the caller must be owner.
      */
-    function increaseAccountTransferLimit(address account, uint256 amount) external virtual onlyOwner {
-        _increaseAccountTransferLimit(account, amount);
+    function increaseTransferLimit(address account, uint256 amount) external virtual onlyOwner {
+        _increaseTransferLimit(account, amount);
     }
 
     /**
-     * @dev See {ERC20TransferLimit-_decreaseAccountTransferLimit}.
+     * @dev See {ERC20TransferLimit-_decreaseTransferLimit}.
      *
      * Decreases the transfer limit for a specific account.
      *
-     * Emits an {IncreaseAccountTransferLimit} event indicating that the account's transfer limit has been decreased.
+     * Emits an {DecreaseTransferLimit} event indicating that the account's transfer limit has been decreased.
      *
      * Requirements:
      * 
      * - the caller must be owner.
      */
-    function decreaseAccountTransferLimit(address account, uint256 amount) external virtual onlyOwner {
-        _decreaseAccountTransferLimit(account, amount);
+    function decreaseTransferLimit(address account, uint256 amount) external virtual onlyOwner {
+        _decreaseTransferLimit(account, amount);
     }
 
     /**

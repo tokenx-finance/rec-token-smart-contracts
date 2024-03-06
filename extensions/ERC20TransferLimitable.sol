@@ -21,32 +21,32 @@ abstract contract ERC20TransferLimitable {
     /**
      * @dev Emitted when transfer limits are enabled for the contract.
      */
-    event EnableERC20TransferLimit();
+    event EnableTransferLimitable();
 
     /**
      * @dev Emitted when transfer limits are disabled for the contract.
      */
-    event DisableERC20TransferLimit();
+    event DisableTransferLimitable();
 
     /**
      * @dev Emitted when a transfer limit is set for a specific account.
      */
-    event SetAccountTransferLimit(address indexed account, uint256 amount);
+    event SetTransferLimit(address indexed account, uint256 amount);
 
     /**
      * @dev Emitted when the transfer limit is removed from a specific account.
      */
-    event UnsetAccountTransferLimit(address indexed account);
+    event UnsetTransferLimit(address indexed account);
 
     /**
      * @dev Emitted when the transfer limit for a specific account is increased.
      */
-    event IncreaseAccountTransferLimit(address indexed account, uint256 amount);
+    event IncreaseTransferLimit(address indexed account, uint256 amount);
 
     /**
      * @dev Emitted when the transfer limit for a specific account is decreased.
      */
-    event DecreaseAccountTransferLimit(address indexed account, uint256 amount);
+    event DecreaseTransferLimit(address indexed account, uint256 amount);
 
     /**
      * @dev Modifier that a transfer amount against the account's transfer limit. If the limit is exceeded, the transaction reverts.
@@ -67,7 +67,7 @@ abstract contract ERC20TransferLimitable {
     /**
      * @dev Throws if called when transfer limitable are disabled.
      */
-    modifier whenTransferLimitable() {
+    modifier whenTransferLimitableEnabled() {
         require(_transferLimitable, "ERC20TransferLimit: transfer limit disabled");
         _;
     }
@@ -75,7 +75,7 @@ abstract contract ERC20TransferLimitable {
     /**
      * @dev Throws if called when transfer limitable are enabled.
      */
-    modifier whenNotTransferLimitable() {
+    modifier whenTransferLimitableDisabled() {
         require(!_transferLimitable, "ERC20TransferLimit: transfer limit enabled");
         _;
     }
@@ -83,7 +83,7 @@ abstract contract ERC20TransferLimitable {
     /**
      * @dev Throws if the specified account's transfer limits are disabled. 
      */
-    modifier whenAccountTransferLimit(address account) {
+    modifier requireTransferLimitEnabled(address account) {
         require(_transferLimitList[account].limitable, "ERC20TransferLimit: account transfer limit disabled");
         _;
     }
@@ -91,7 +91,7 @@ abstract contract ERC20TransferLimitable {
     /**
      * @dev Throws if the specified account's transfer limits are enabled. 
      */
-    modifier whenAccountTransferNotLimit(address account) {
+    modifier requireTransferLimitDisabled(address account) {
         require(!_transferLimitList[account].limitable, "ERC20TransferLimit: account transfer limit enabled");
         _;
     }
@@ -109,7 +109,7 @@ abstract contract ERC20TransferLimitable {
      * @return bool True if the account has a transfer limit, false otherwise.
      * @return uint256 The current transfer limit amount for the account.
      */
-    function accountTransferLimit(address account) external view returns (bool, uint256) {
+    function transferLimitOf(address account) external view returns (bool, uint256) {
         TransferLimit memory _account = _transferLimitList[account];
         return (_account.limitable, _account.amount);
     }
@@ -121,10 +121,10 @@ abstract contract ERC20TransferLimitable {
      *
      * - `_transferLimitable` must be disabled.
      */
-    function _enableTransferLimitable() internal virtual whenNotTransferLimitable()  {
+    function _enableTransferLimitable() internal virtual whenTransferLimitableDisabled  {
         _transferLimitable = true;
 
-        emit EnableERC20TransferLimit();
+        emit EnableTransferLimitable();
     }
 
     /**
@@ -134,10 +134,10 @@ abstract contract ERC20TransferLimitable {
      *
      * - `_transferLimitable` must be enabled.
      */
-    function _disableTransferLimitable() internal virtual whenTransferLimitable {
+    function _disableTransferLimitable() internal virtual whenTransferLimitableEnabled {
         _transferLimitable = false;
 
-        emit DisableERC20TransferLimit();
+        emit DisableTransferLimitable();
     }
 
     /**
@@ -149,11 +149,11 @@ abstract contract ERC20TransferLimitable {
      *
      * - the account transfer limit must be disabled.
      */
-    function _setAccountTransferLimit(address account, uint256 amount) internal virtual whenAccountTransferNotLimit(account)  {
+    function _setTransferLimit(address account, uint256 amount) internal virtual requireTransferLimitDisabled(account) {
         _transferLimitList[account].limitable = true;
         _transferLimitList[account].amount = amount;
 
-        emit SetAccountTransferLimit(account, amount);
+        emit SetTransferLimit(account, amount);
     }
 
     /**
@@ -164,11 +164,11 @@ abstract contract ERC20TransferLimitable {
      *
      * - the account transfer limit must be enabled.
      */
-    function _unsetAccountTransferLimit(address account) internal virtual whenAccountTransferLimit(account) {
+    function _unsetTransferLimit(address account) internal virtual requireTransferLimitEnabled(account) {
         _transferLimitList[account].limitable = false;
         _transferLimitList[account].amount = 0;
 
-        emit UnsetAccountTransferLimit(account);
+        emit UnsetTransferLimit(account);
     }
 
     /**
@@ -176,10 +176,10 @@ abstract contract ERC20TransferLimitable {
      * @param account The address of the account whose limit will be increased.
      * @param amount The amount by which to increase the transfer limit.
      */
-    function _increaseAccountTransferLimit(address account, uint256 amount) internal virtual whenAccountTransferLimit(account) {
+    function _increaseTransferLimit(address account, uint256 amount) internal virtual requireTransferLimitEnabled(account) {
         _transferLimitList[account].amount += amount;
 
-        emit IncreaseAccountTransferLimit(account, amount);
+        emit IncreaseTransferLimit(account, amount);
     }
 
     /**
@@ -187,13 +187,13 @@ abstract contract ERC20TransferLimitable {
      * @param account The address of the account whose limit will be decreased.
      * @param amount The amount by which to decrease the transfer limit.
      */
-    function _decreaseAccountTransferLimit(address account, uint256 amount) internal virtual whenAccountTransferLimit(account) {
+    function _decreaseTransferLimit(address account, uint256 amount) internal virtual requireTransferLimitEnabled(account) {
         if (_transferLimitList[account].amount < amount) {
             _transferLimitList[account].amount = 0;
         } else {
             _transferLimitList[account].amount -= amount;
         }
 
-        emit DecreaseAccountTransferLimit(account, amount);
+        emit DecreaseTransferLimit(account, amount);
     }
 }
