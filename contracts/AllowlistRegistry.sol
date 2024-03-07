@@ -2,7 +2,7 @@
 // TokenX Contracts v1.0.3 (extensions/AllowlistRegistry.sol)
 pragma solidity 0.8.24;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @dev Contract module which provides a registry of allowlist accounts, where
