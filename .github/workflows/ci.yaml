@@ -54,5 +54,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - uses: artiomtr/jest-coverage-report-action@v2.2.4
         with:
-          package-manager: npm
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-script: npm run coverage
+          coverage-file: ./coverage/coverage-final.json
