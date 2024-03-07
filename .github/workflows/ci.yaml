@@ -69,4 +69,4 @@ jobs:
       - uses: MishaKav/jest-coverage-comment@main
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          coverage-summary-path: ./coverage/coverage-final.json
+          coverage-summary-path: ./coverage.json
