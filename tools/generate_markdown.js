@@ -31,7 +31,6 @@ function jsonToMarkdown(jsonData) {
   return markdown;
 }
 
-// Example usage
 const jsonFilePath = "./coverage.json";
 fs.readFile(jsonFilePath, "utf8", (err, data) => {
   if (err) {
