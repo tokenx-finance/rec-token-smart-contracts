@@ -6,9 +6,9 @@ import {ERC20Mintable} from "../extensions/ERC20Mintable.sol";
 import {ERC20TransferLimitable} from "../extensions/ERC20TransferLimitable.sol";
 import {ERC20AllowListableProxy} from "../extensions/ERC20AllowListableProxy.sol";
 import {EmergencyWithdrawable} from "../extensions/EmergencyWithdrawable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {Pausable} from "@openzeppelin/contracts/security/Pausable.sol";
+import {ERC20Burnable} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 /**
  * @dev {ERC20} token, including:
