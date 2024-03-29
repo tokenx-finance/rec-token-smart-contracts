@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// TokenX Contracts v1.0.0 (extensions/ERC20TransferLimitable.sol)
-pragma solidity 0.8.24;
+// TokenX Contracts v1.0.1 (extensions/ERC20TransferLimitable.sol)
+pragma solidity 0.8.25;
 
 /**
  * @dev Contract module that allows child contracts to implement a transfer limit control
