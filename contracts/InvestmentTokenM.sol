@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
-// TokenX Contracts v1.0.2 (contracts/InvestmentTokenM.sol)
-pragma solidity 0.8.24;
+// TokenX Contracts v1.0.3 (contracts/InvestmentTokenM.sol)
+pragma solidity 0.8.25;
 
 import {ERC20Mintable} from "../extensions/ERC20Mintable.sol";
 import {ERC20TransferLimitable} from "../extensions/ERC20TransferLimitable.sol";
