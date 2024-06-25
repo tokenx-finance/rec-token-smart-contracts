@@ -1,5 +1,5 @@
 {
-  "name": "poseidon-smart-contracts",
+  "name": "rec-token-smart-contracts",
   "scripts": {
     "lint": "hardhat check",
     "test": "hardhat test",
